@@ -28,7 +28,7 @@ CREATE TABLE Empleado (
 );
 
 CREATE TABLE Cuenta (
-    nro_cuenta INT PRIMARY KEY,
+    nro_cuenta INT PRIMARY KEY auto_increment,
     documento_cli INT,
     activo BOOLEAN,
     tipo VARCHAR(255),
@@ -36,7 +36,7 @@ CREATE TABLE Cuenta (
 );
 
 CREATE TABLE Tarjeta (
-    id_tarjeta INT PRIMARY KEY,
+    id_tarjeta INT PRIMARY KEY auto_increment,
     nro_tarjeta VARCHAR(16),
     nro_cuenta INT,
     fecha_alta DATETIME,
@@ -49,14 +49,14 @@ CREATE TABLE Tarjeta (
 );
 
 CREATE TABLE Tarea (
-    fecha DATETIME,
+    fecha timestamp,
     documento_em INT,
     descripcion VARCHAR(255),
     FOREIGN KEY (documento_em) REFERENCES Empleado(documento_em)
 );
 
 CREATE TABLE Transaccion (
-    nro_transaccion INT PRIMARY KEY,
+    nro_transaccion INT PRIMARY KEY auto_increment,
     nro_cuenta INT,
     documento_cli INT,
     id_tarjeta INT,
@@ -67,13 +67,14 @@ CREATE TABLE Transaccion (
     descripcion VARCHAR(255),
     moneda INT,
     tipo_transaccion VARCHAR(255),
+    ordinal smallint default 1,
     FOREIGN KEY (nro_cuenta) REFERENCES Cuenta(nro_cuenta),
     FOREIGN KEY (documento_cli) REFERENCES Cliente(documento_cli),
     FOREIGN KEY (id_tarjeta) REFERENCES Tarjeta(id_tarjeta)
 );
 
 CREATE TABLE Saldo (
-    id_saldo INT PRIMARY KEY,
+    id_saldo INT PRIMARY KEY auto_increment,
     nro_cuenta INT,
     monto_pesos DECIMAL(10, 2),
     monto_dolares DECIMAL(10, 2),
@@ -83,4 +84,7 @@ CREATE TABLE Saldo (
 
 select * from usuario;
 
+select * from Cliente;
+insert into cliente values (51114096, "Premium",true);
 
+select * from Cuenta;
