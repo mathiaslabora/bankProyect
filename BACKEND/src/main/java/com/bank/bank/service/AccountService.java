@@ -6,11 +6,11 @@ import reactor.core.publisher.Mono;
 
 @Service
 public interface AccountService {
-    Account newCuenta(Account account);
-    Iterable<Account> getAllCuentas();
-    Account getCuentaById(Long nroCuenta);
-    Account updateCuenta(Account account);
-    boolean deleteCuenta(Long nroCuenta);
-    Mono<Account>enableCuenta(Long nroCuenta);
+    Account newAccount(Account account);
+    Iterable<Account> getAllAccounts();
+    Account getAccountById(Long nroCuenta);
+    Account updateAccount(Account account);
+    boolean deleteAccount(Long nroCuenta);
+    Mono<Account> enableAccount(Long nroCuenta);
 
 }

@@ -12,27 +12,27 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     AccountRepository accountRepository;
     @Override
-    public Account newCuenta(Account account) {
+    public Account newAccount(Account account) {
         return accountRepository.save(account);
     }
 
     @Override
-    public Iterable<Account> getAllCuentas() {
+    public Iterable<Account> getAllAccounts() {
         return null;
     }
 
     @Override
-    public Account getCuentaById(Long nroCuenta) {
+    public Account getAccountById(Long nroCuenta) {
         return null;
     }
 
     @Override
-    public Account updateCuenta(Account account) {
+    public Account updateAccount(Account account) {
         return null;
     }
 
     @Override
-    public boolean deleteCuenta(Long nroCuenta) {
+    public boolean deleteAccount(Long nroCuenta) {
         Account account = accountRepository.findById(nroCuenta).orElse(null);
         if (account != null) {
             account.setActive(false);
@@ -43,7 +43,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Mono<Account> enableCuenta(Long nroCuenta) {
+    public Mono<Account> enableAccount(Long nroCuenta) {
         //Aplico reactor
         Optional<Account> optionalCuenta = accountRepository.findById(nroCuenta);
         if (optionalCuenta.isPresent()) {
