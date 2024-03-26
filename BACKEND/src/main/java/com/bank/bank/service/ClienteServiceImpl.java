@@ -3,10 +3,12 @@ package com.bank.bank.service;
 import com.bank.bank.model.Cliente;
 import com.bank.bank.repository.ClienteRepository;
 import org.antlr.v4.runtime.misc.LogManager;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ClienteServiceImpl implements ClienteService{
 
     ClienteRepository clienteRepository;

@@ -1,6 +1,10 @@
 package com.bank.bank.service;
 
+import com.bank.bank.model.Cliente;
+import com.bank.bank.model.Empleado;
 import com.bank.bank.model.Usuario;
+import com.bank.bank.repository.ClienteRepository;
+import com.bank.bank.repository.EmpleadoRepository;
 import com.bank.bank.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +16,11 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private EmpleadoRepository empleadoRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Override
@@ -19,7 +28,24 @@ public class UsuarioServiceImpl implements UsuarioService {
         String encodePass = passwordEncoder.encode(newUsuario.getContrasena());
         newUsuario.setContrasena(encodePass);
         System.out.println("Encoded: " + encodePass);
-        return usuarioRepository.save(newUsuario);
+        Usuario usuario = this.usuarioRepository.save(newUsuario);
+        if (usuario.getTipoUsu().equals("Cliente")){
+            Cliente cliente = new Cliente();
+            cliente.setDocumentoCli(usuario.getDocumento());
+            cliente.setActivo(true);
+            cliente.setTipoCli("Web");
+            this.clienteRepository.save(cliente);
+        }else {
+            Empleado empleado = new Empleado();
+            empleado.setDocumentoEm(usuario.getDocumento());
+            empleado.setActivo(true);
+            empleado.setRol("Empleado");
+            this.empleadoRepository.save(empleado);
+        }
+        //Creo un usuario para no devolverlo con la password
+        Usuario usuarioWhitoutPass = usuario;
+        usuarioWhitoutPass.setContrasena("Password Confidential");
+        return usuarioWhitoutPass;
     }
 
     @Override
@@ -33,15 +59,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario createUsuario(Usuario usuario) {
-        return this.usuarioRepository.save(usuario);
-    }
-
-    @Override
     public Usuario updateUsuario(Usuario usuario) {
         Optional<Usuario> usuarioFind= this.usuarioRepository.findById(Long.valueOf(usuario.getDocumento()));
         if(usuarioFind.get()!=null){
-            //usuarioFind.get().setDocumento(usuario.getDocumento());
             usuarioFind.get().setContrasena(usuario.getContrasena());
             usuarioFind.get().setCorreo(usuario.getCorreo());
             usuarioFind.get().setDireccion(usuario.getDireccion());

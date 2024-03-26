@@ -16,7 +16,6 @@ public interface UsuarioService {
 
     Iterable<Usuario> getAllUsuarios();
     Usuario getUsuarioById(Long id) ;
-    Usuario createUsuario(Usuario usuario);
 
     Usuario updateUsuario(Usuario usuarioDetails);
 
