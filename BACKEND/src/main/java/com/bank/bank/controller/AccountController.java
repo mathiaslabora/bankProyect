@@ -1,9 +1,8 @@
 package com.bank.bank.controller;
 
 
-import com.bank.bank.model.Cuenta;
-import com.bank.bank.model.Usuario;
-import com.bank.bank.service.CuentaService;
+import com.bank.bank.model.Account;
+import com.bank.bank.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/Cuenta")
-public class CuentaController {
+@RequestMapping("/account")
+public class AccountController {
     @Autowired
-    CuentaService cuentaService;
+    AccountService accountService;
 
     @PostMapping("/new")
-    public Cuenta newCuenta(@RequestBody Cuenta newCuenta){
-        return this.cuentaService.newCuenta(newCuenta);
+    public Account newCuenta(@RequestBody Account newAccount){
+        return this.accountService.newCuenta(newAccount);
     }
 
 
