@@ -17,22 +17,21 @@ public class UserController {
     @Autowired
     private AuthService authService;
     @PostMapping("/new")
-    public Mono<User> newUsuario(@RequestBody User newUser){
+    public Mono<User> newUser(@RequestBody User newUser){
         return this.userService.newUser(newUser);
     }
     @GetMapping("/getAllUser")
     public Flux<User> getAll(){
-        System.out.println("acaaa");
         return userService.getAllUser();
     }
 
     @PostMapping("/updateUser")
-    public User updateUsuario(@RequestBody User user){
+    public User updateUser(@RequestBody User user){
         return this.userService.updateUser(user);
     }
 
     @PostMapping(value = "/deleteUser/{id}")
-    public boolean deleteUsuario(@PathVariable(value="id") Long id){
+    public boolean deleteUser(@PathVariable(value="id") Long id){
         return this.userService.deleteUser(id);
     }
 

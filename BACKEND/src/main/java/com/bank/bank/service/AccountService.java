@@ -4,7 +4,7 @@ import com.bank.bank.model.Account;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-@Service
+
 public interface AccountService {
     Account newAccount(Account account);
     Iterable<Account> getAllAccounts();
