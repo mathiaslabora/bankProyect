@@ -2,6 +2,7 @@ package com.bank.bank.controller;
 
 import com.bank.bank.model.Transaction;
 import com.bank.bank.service.TransactionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +13,10 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/transactions")
 public class TransactionController {
 
-
+    @Autowired
     private TransactionService transactionService;
 
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
-
-    @GetMapping
+    @GetMapping("/getAll")
     public Flux<Transaction> getAllTransactions() {
         return transactionService.getAllTransactions();
     }
@@ -31,7 +28,7 @@ public class TransactionController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/new")
     public Mono<ResponseEntity<Transaction>> newTransaction(@RequestBody Transaction transaction) {
         return transactionService.newTransaction(transaction)
                 .map(newTransaction -> ResponseEntity.status(HttpStatus.CREATED).body(newTransaction));

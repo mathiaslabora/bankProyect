@@ -15,7 +15,6 @@ import java.util.Optional;
 @RequestMapping("/clients")
 public class ClientController {
   @Autowired
-
   ClientService clientService;
 
     @GetMapping("/all")
