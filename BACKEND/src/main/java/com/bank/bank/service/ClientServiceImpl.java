@@ -3,6 +3,8 @@ package com.bank.bank.service;
 import com.bank.bank.model.Client;
 import com.bank.bank.repository.ClientRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,28 +13,49 @@ import java.util.Optional;
 public class ClientServiceImpl implements ClientService {
 
     ClientRepository clientRepository;
-    @Override
-    public List<Client> getAllClient() {
-        return clientRepository.findAll();
+
+    public ClientServiceImpl(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
     @Override
-    public Optional<Client> getClientById(Long documentoCli) {
-        return clientRepository.findById(documentoCli);
+    public Flux<Client> getAllClients() {
+        return Flux.fromIterable(clientRepository.findAll());
     }
 
     @Override
-    public Client saveClient(Client client) {
-        return clientRepository.save(client);
+    public Mono<Client> getClientById(Long documentoCli) {
+        return Mono.justOrEmpty(clientRepository.findById(documentoCli));
     }
 
     @Override
-    public Client updateClient(Client client) {
-        return clientRepository.save(client);
+    public Mono<Client> saveClient(Client client) {
+        return Mono.just(clientRepository.save(client));
     }
 
     @Override
-    public void deleteClient(int documentoCli) {
+    public Mono<Client> updateClient(Client client) {
+        return Mono.just(clientRepository.save(client));
+    }
+
+    @Override
+    public Mono<Client> deleteClient(int documentoCli) {
+
+        return Mono.just(clientRepository.findById(Long.valueOf(documentoCli)))
+                .flatMap(clientOptional -> {
+                    if (clientOptional.isPresent()) {
+                        Client client = clientOptional.get();
+                        if (client.isActive()) {
+                            client.setActive(false);
+                            clientRepository.save(client);
+                            return Mono.just(client);
+                        } else {
+                            return Mono.error(new RuntimeException("Cliente no encontrado"));
+                        }
+                    } else {
+                        return Mono.error(new RuntimeException("Cliente no encontrado"));
+                    }
+                });
 
     }
 }

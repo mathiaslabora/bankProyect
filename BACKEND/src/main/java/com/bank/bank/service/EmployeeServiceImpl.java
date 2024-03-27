@@ -38,7 +38,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Mono<Boolean> deleteEmployee(int documento_em) {
         return findEmployeeByDocument(documento_em)
                 .flatMap(existingEmployee -> {
-                    employeeRepository.delete(existingEmployee);
+                    existingEmployee.setActive(false);
+                    employeeRepository.save(existingEmployee);
                     return Mono.just(true);
                 })
                 .defaultIfEmpty(false);

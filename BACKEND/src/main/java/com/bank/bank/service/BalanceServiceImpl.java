@@ -2,9 +2,11 @@ package com.bank.bank.service;
 
 import com.bank.bank.model.Balance;
 import com.bank.bank.repository.BalanceRepository;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Service
 public class BalanceServiceImpl implements BalanceService{
     BalanceRepository balanceRepository;
     @Override

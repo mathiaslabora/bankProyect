@@ -9,6 +9,7 @@ public class Account {
     private int account_number;
     private int document_cli;
     private boolean active;
+    @Column(name = "account_tipe")
     private String account_tipe;
     @ManyToOne
     @JoinColumn(name = "document_cli", insertable = false, updatable = false)

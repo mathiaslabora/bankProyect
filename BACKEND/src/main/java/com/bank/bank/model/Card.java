@@ -10,11 +10,11 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int card_id;
-    private String card_number;
+    private Long card_number;
     private int account_number;
     private LocalDateTime issue_date;
     private LocalDateTime expiration_date;
-    private String card_tipe;
+    private String card_type;
     private BigDecimal limit_amount;
     private BigDecimal available_balance;
     private LocalDateTime closing_date;
@@ -30,11 +30,11 @@ public class Card {
         this.card_id = card_id;
     }
 
-    public String getCard_number() {
+    public Long getCard_number() {
         return card_number;
     }
 
-    public void setCard_number(String card_number) {
+    public void setCard_number(Long card_number) {
         this.card_number = card_number;
     }
 
@@ -62,12 +62,12 @@ public class Card {
         this.expiration_date = expiration_date;
     }
 
-    public String getCard_tipe() {
-        return card_tipe;
+    public String getCard_type() {
+        return card_type;
     }
 
-    public void setCard_tipe(String card_tipe) {
-        this.card_tipe = card_tipe;
+    public void setCard_type(String card_type) {
+        this.card_type = card_type;
     }
 
     public BigDecimal getLimit_amount() {

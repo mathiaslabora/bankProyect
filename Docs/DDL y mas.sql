@@ -27,12 +27,12 @@ CREATE TABLE Employee (
     FOREIGN KEY (document_emp) REFERENCES User(document)
 );
 
-CREATE TABLE `Account` (
+CREATE TABLE Account (
     account_number INT PRIMARY KEY auto_increment,
-    client_document INT,
+    document_cli INT,
     active BOOLEAN,
-    account_type VARCHAR(255),
-    FOREIGN KEY (client_document) REFERENCES Client(document_cli)
+    account_tipe VARCHAR(255),
+    FOREIGN KEY (document_cli) REFERENCES Client(document_cli)
 );
 
 CREATE TABLE Card (
@@ -42,12 +42,30 @@ CREATE TABLE Card (
     issue_date DATETIME,
     expiration_date DATETIME,
     card_type VARCHAR(30),
-    limit_mount DECIMAL(10, 2),
+    limit_amount DECIMAL(10, 2),
     available_balance DECIMAL(10, 2),
     closing_date DATETIME,
     FOREIGN KEY (account_number) REFERENCES Account(account_number)
-);
 
+);
+DELIMITER //
+CREATE TRIGGER before_insert_card
+BEFORE INSERT ON Card
+FOR EACH ROW
+BEGIN
+    DECLARE chars VARCHAR(16);
+    DECLARE i INT DEFAULT 1;
+    DECLARE rnd INT;
+    SET chars = '0123456789';
+    SET NEW.card_number = '';
+    WHILE i <= 16 DO
+        SET rnd = FLOOR(1 + RAND() * 9);
+        SET NEW.card_number = CONCAT(NEW.card_number, SUBSTRING(chars, rnd, 1));
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
 CREATE TABLE Task (
     date timestamp,
     employee_document INT,
@@ -89,3 +107,4 @@ select * from Client;
 -- insert into client values (51114096, "Premium",true);
 
 select * from account;
+select * from card;

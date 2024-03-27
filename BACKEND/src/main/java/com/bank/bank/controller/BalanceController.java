@@ -2,6 +2,7 @@ package com.bank.bank.controller;
 
 import com.bank.bank.model.Balance;
 import com.bank.bank.service.BalanceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -9,11 +10,8 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/balance")
 public class BalanceController {
+    @Autowired
     private BalanceService balanceService;
-
-    public BalanceController(BalanceService balanceService) {
-        this.balanceService = balanceService;
-    }
 
     @GetMapping("/getAllBalances")
     public Flux<Balance> getAllBalances() {
