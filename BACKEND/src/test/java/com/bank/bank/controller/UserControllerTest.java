@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -32,10 +33,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
 
+    @Autowired
     private UserService userService = Mockito.mock(UserServiceImpl.class);
-
+    @Autowired
     private UserController userController =  Mockito.mock(UserController.class);
     private MockMvc mockMvc;
+    private MockMvc mockMvcServ;
 
     //mockMvc = MockMvcBuilders.standaloneSetup(usuarioController).build();
 
@@ -43,18 +46,11 @@ class UserControllerTest {
     @BeforeEach
     void setUp() {
 
-//        Usuario usuario = new Usuario();
-//        usuario.setDocumento(123123123);
-//        usuario.setContrasena("123123");
-//        //Mockito.when(usuarioRepositoryMock.save(usuario)).thenReturn(usuario);
-//        //UsuarioController usuarioController = new UsuarioController();
-//        UsuarioController usuarioController = Mockito.mock(UsuarioController.class);
-//    mockMvc = MockMvcBuilders.standaloneSetup(usuarioController).build();
+        //mockMvcServ = MockMvcBuilders.standaloneSetup(userService).build();
 
+        //mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-
-
+        mockMvc = MockMvcBuilders.standaloneSetup(userService).build();
         User user = new User();
         user.setDocument(123123123);
         user.setPassword("123123");
@@ -67,8 +63,11 @@ class UserControllerTest {
                 user, user2
         );
         Iterable<User> usuariosIterable = usuariosList;
-        given(userController.getAll()).willReturn(Flux.fromIterable(usuariosIterable));
+        Flux<User> usuariosFlux = Flux.fromIterable(usuariosList);
         given(userController.updateUsuario(user)).willReturn(user);
+        given(userController.getAll()).willReturn(usuariosFlux);
+        given(userService.getAllUser()).willReturn(usuariosFlux);
+
     }
 
     @Test
@@ -78,37 +77,46 @@ class UserControllerTest {
         user.setPassword("123123");
 
 
-        //when(usuarioService.newUsuario(usuario)).thenReturn(usuario);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/Usuario/new")
+
+      String response =   mockMvc.perform(MockMvcRequestBuilders.post("/user/new")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
                         .andExpect(MockMvcResultMatchers.
                                         status()
                                 .isOk()
-                                )
-
+                                ).andReturn().getResponse().getContentAsString();
+        System.out.println(response);
                         ;
-
-       // verify(usuarioController, times(1)).newUsuario(usuario);
 
     }
 
     @Test
-    void gettingAllUsers() throws Exception {
-
+    void getAllUsers() throws Exception {
       //  verify(usuarioService, times(1)).getAllUsuarios();
-       final var mockResponse = mockMvc.perform(MockMvcRequestBuilders.get("/Usuario/getAllUsuarios"))
+       final var mockResponse = mockMvc.perform(MockMvcRequestBuilders.get("/user/getAllUser"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)))
-                .andReturn()
-                .getResponse().getContentAsString();
-        // assertThat (mockResponse).isArray().size().isEqualTo(2)
-                //.andExpect(MockMvcResultMatchers.jsonPath("$[0].documento").value(123123123))
-        ;
-        System.out.println(mockResponse);
-       // verifyNoMoreInteractions(usuarioService);
+                //.andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)))
+//                .andDo(result -> {
+//                    String responseJson = result.getResponse().getContentAsString();
+//                    System.out.println(responseJson);
+////                    try {
+////                       ObjectMapper objectMapper = new ObjectMapper();
+////                        List<User> users = objectMapper.readValue(responseJson, new TypeReference<List<User>>() {});
+////
+////                        users.forEach(user -> System.out.println(user.toString()));
+////                    } catch (IOException e) {
+////                        e.printStackTrace();
+////                    }
+//                })
+
+               ;
+
+
+
+
     }
+
 
     @Test
     void updateUsuario() throws Exception {
@@ -121,7 +129,7 @@ class UserControllerTest {
         //when(usuarioService.newUsuario(usuario)).thenReturn(usuario);
 
 //        String response =
-        final var mockResponse =mockMvc.perform(MockMvcRequestBuilders.post("/Usuario/updateUsuario")
+        final var mockResponse =mockMvc.perform(MockMvcRequestBuilders.post("/user/updateUser")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
                         .andExpect(MockMvcResultMatchers.

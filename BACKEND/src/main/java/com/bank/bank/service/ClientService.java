@@ -7,12 +7,12 @@ import java.util.Optional;
 
 public interface ClientService {
 
-    List<Client> getAllClientes();
+    List<Client> getAllClient();
 
-    Optional<Client> getClienteById(Long documentoCli);
+    Optional<Client> getClientById(Long documentoCli);
 
-    Client saveCliente(Client client);
-    Client updateCliente(Client client);
-    void deleteCliente(int documentoCli);
+    Client saveClient(Client client);
+    Client updateClient(Client client);
+    void deleteClient(int documentoCli);
 
 }

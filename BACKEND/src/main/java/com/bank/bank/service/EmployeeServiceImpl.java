@@ -10,23 +10,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
     @Override
-    public Mono<Employee> saveEmpleado(Employee employee) {
+    public Mono<Employee> saveEmployee(Employee employee) {
         return Mono.just(employeeRepository.save(employee));
     }
 
     @Override
-    public Mono<Employee> findEmpleadoeByDocumento(int documento_em) {
+    public Mono<Employee> findEmployeeByDocument(int documento_em) {
         return Mono.justOrEmpty(employeeRepository.findById(Long.valueOf(documento_em)));
     }
 
     @Override
-    public Flux<Employee> findAllEmpleados() {
+    public Flux<Employee> findAllEmployee() {
         return Flux.fromIterable(employeeRepository.findAll());
     }
 
     @Override
-    public Mono<Employee> updateEmpleado(Employee employee) {
-        return findEmpleadoeByDocumento(employee.getDocument_emp())
+    public Mono<Employee> updateEmployee(Employee employee) {
+        return findEmployeeByDocument(employee.getDocument_emp())
                 .flatMap(existingEmpleado -> {
                     existingEmpleado.setRole(employee.getRole());
                     existingEmpleado.setActive(employee.isActive());
@@ -35,8 +35,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Mono<Boolean> deleteEmpleado(int documento_em) {
-        return findEmpleadoeByDocumento(documento_em)
+    public Mono<Boolean> deleteEmployee(int documento_em) {
+        return findEmployeeByDocument(documento_em)
                 .flatMap(existingEmployee -> {
                     employeeRepository.delete(existingEmployee);
                     return Mono.just(true);

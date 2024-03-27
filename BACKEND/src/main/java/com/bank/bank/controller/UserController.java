@@ -18,21 +18,22 @@ public class UserController {
     private AuthService authService;
     @PostMapping("/new")
     public Mono<User> newUsuario(@RequestBody User newUser){
-        return this.userService.newUsuario(newUser);
+        return this.userService.newUser(newUser);
     }
     @GetMapping("/getAllUser")
     public Flux<User> getAll(){
-        return userService.getAllUsuarios();
+        System.out.println("acaaa");
+        return userService.getAllUser();
     }
 
     @PostMapping("/updateUser")
     public User updateUsuario(@RequestBody User user){
-        return this.userService.updateUsuario(user);
+        return this.userService.updateUser(user);
     }
 
     @PostMapping(value = "/deleteUser/{id}")
     public boolean deleteUsuario(@PathVariable(value="id") Long id){
-        return this.userService.deleteUsuario(id);
+        return this.userService.deleteUser(id);
     }
 
     @PostMapping("/login")

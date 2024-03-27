@@ -12,27 +12,27 @@ public class ClientServiceImpl implements ClientService {
 
     ClientRepository clientRepository;
     @Override
-    public List<Client> getAllClientes() {
+    public List<Client> getAllClient() {
         return clientRepository.findAll();
     }
 
     @Override
-    public Optional<Client> getClienteById(Long documentoCli) {
+    public Optional<Client> getClientById(Long documentoCli) {
         return clientRepository.findById(documentoCli);
     }
 
     @Override
-    public Client saveCliente(Client client) {
+    public Client saveClient(Client client) {
         return clientRepository.save(client);
     }
 
     @Override
-    public Client updateCliente(Client client) {
+    public Client updateClient(Client client) {
         return clientRepository.save(client);
     }
 
     @Override
-    public void deleteCliente(int documentoCli) {
+    public void deleteClient(int documentoCli) {
 
     }
 }

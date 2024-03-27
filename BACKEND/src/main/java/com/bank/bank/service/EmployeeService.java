@@ -5,13 +5,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface EmployeeService {
-    Mono<Employee> saveEmpleado(Employee employee);
+    Mono<Employee> saveEmployee(Employee employee);
 
-    Mono<Employee> findEmpleadoeByDocumento(int documento_em);
+    Mono<Employee> findEmployeeByDocument(int documento_em);
 
-    Flux<Employee> findAllEmpleados();
+    Flux<Employee> findAllEmployee();
 
-    Mono<Employee> updateEmpleado(Employee employee);
+    Mono<Employee> updateEmployee(Employee employee);
 
-    Mono<Boolean> deleteEmpleado(int documento_em);
+    Mono<Boolean> deleteEmployee(int documento_em);
 }

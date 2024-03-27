@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Override
-    public Mono<User> newUsuario(User newUser) {
+    public Mono<User> newUser(User newUser) {
         return Mono.just(newUser)
                 .flatMap(user -> {
                     String encodePass = passwordEncoder.encode(user.getPassword());
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Flux<User> getAllUsuarios() {
+    public Flux<User> getAllUser() {
 
         return Flux.fromIterable(this.userRepository.findAll())
                 .map(user -> {
@@ -77,18 +77,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUsuarioById(Long id) {
+    public User getUserById(Long id) {
         return this.userRepository.getReferenceById(id);
     }
 
     @Override
-    public User updateUsuario(User user) {
+    public User updateUser(User user) {
         Optional<User> usuarioFind= this.userRepository.findById(Long.valueOf(user.getDocument()));
         if(usuarioFind.get()!=null){
             usuarioFind.get().setPassword(user.getPassword());
             usuarioFind.get().setEmail(user.getEmail());
             usuarioFind.get().setAddress(user.getAddress());
-            usuarioFind.get().setUser_type(user.getUser_type());
+            usuarioFind.get().setUser_type(usuarioFind.get().getUser_type());//no permito la modificacion del tipo de usuario
             usuarioFind.get().setFull_name(user.getFull_name());
             return this.userRepository.save(usuarioFind.get());
         }
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUsuario(Long id) {
+    public boolean deleteUser(Long id) {
         this.userRepository.deleteById(id);
         return true;
     }
