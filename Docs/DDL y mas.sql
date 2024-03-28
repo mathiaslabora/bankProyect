@@ -48,6 +48,7 @@ CREATE TABLE Card (
     FOREIGN KEY (account_number) REFERENCES Account(account_number)
 
 );
+-- agrego un aleatorio para nro de tarjeta
 DELIMITER //
 CREATE TRIGGER before_insert_card
 BEFORE INSERT ON Card
@@ -86,14 +87,14 @@ CREATE TABLE `Transaction` (
     currency INT,
     transaction_type VARCHAR(255),
     ordinal smallint default 1,
+    processed boolean default false,
     FOREIGN KEY (account_number) REFERENCES Account(account_number),
     FOREIGN KEY (client_document) REFERENCES Client(document_cli),
     FOREIGN KEY (card_id) REFERENCES Card(card_id)
 );
 
 CREATE TABLE Balance (
-    balance_id INT PRIMARY KEY auto_increment,
-    account_number INT,
+    account_number INT primary key,
     amount_pesos DECIMAL(10, 2),
     amount_dollars DECIMAL(10, 2),
     overdraft_limit DECIMAL(10, 2),

@@ -18,7 +18,15 @@ public class Transaction {
     private int currency;
     private String transaction_type;
 
+    private boolean processed;
 
+    public boolean isProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
+    }
 
     private short ordinal;
     @ManyToOne

@@ -8,24 +8,16 @@ import java.math.BigDecimal;
 @Entity
     public class Balance {
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int balance_id;
-        private BigDecimal amount_pesos;
-        private BigDecimal amount_dollars;
-        private BigDecimal overdraft_limit;
         @ManyToOne
         @JoinColumn(name = "account_number")
         private Account account;
 
+        private BigDecimal amount_pesos;
+        private BigDecimal amount_dollars;
+        private BigDecimal overdraft_limit;
 
 
-    public int getBalance_id() {
-        return balance_id;
-    }
 
-    public void setBalance_id(int balance_id) {
-        this.balance_id = balance_id;
-    }
 
     public BigDecimal getAmount_pesos() {
         return amount_pesos;
