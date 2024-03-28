@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 public class TransactionController {
 
     @Autowired
-    private TransactionService transactionService;
+    TransactionService transactionService;
 
     @GetMapping("/getAll")
     public Flux<Transaction> getAllTransactions() {

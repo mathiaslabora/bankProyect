@@ -16,9 +16,9 @@ import java.util.Optional;
 @Service
 public class TransactionServiceImpl implements TransactionService{
     @Autowired
-    private TransactionRepository transactionRepository;
+    TransactionRepository transactionRepository;
     @Autowired
-    private BalanceRepository balanceRepository;
+    BalanceRepository balanceRepository;
 
     @Autowired
     private BalanceService balanceService;

@@ -7,9 +7,14 @@ import java.math.BigDecimal;
 
 @Entity
     public class Balance {
+
         @Id
-        @ManyToOne
-        @JoinColumn(name = "account_number")
+        @Column(name = "account_number")
+        private Long account_number;
+
+
+    @ManyToOne
+    @JoinColumn(name = "account_number", referencedColumnName = "account_number", insertable = false, updatable = false)
         private Account account;
 
         private BigDecimal amount_pesos;
@@ -49,6 +54,15 @@ import java.math.BigDecimal;
 
     public void setCuenta(Account account) {
         this.account = account;
+    }
+
+
+    public Long getAccount_number() {
+        return account_number;
+    }
+
+    public void setAccount_number(Long account_number) {
+        this.account_number = account_number;
     }
 }
 

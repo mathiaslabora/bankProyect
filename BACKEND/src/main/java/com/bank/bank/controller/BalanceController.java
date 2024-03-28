@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/balance")
 public class BalanceController {
     @Autowired
-    private BalanceService balanceService;
+     BalanceService balanceService;
 
     @GetMapping("/getAllBalances")
     public Flux<Balance> getAllBalances() {
