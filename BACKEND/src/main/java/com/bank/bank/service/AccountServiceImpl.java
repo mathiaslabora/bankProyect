@@ -1,19 +1,35 @@
 package com.bank.bank.service;
 
 import com.bank.bank.model.Account;
+import com.bank.bank.model.Balance;
 import com.bank.bank.repository.AccountRepository;
+import com.bank.bank.repository.BalanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 @Service
 public class AccountServiceImpl implements AccountService {
     @Autowired
+    BalanceRepository balanceRepository;
+    @Autowired
     AccountRepository accountRepository;
     @Override
     public Account newAccount(Account account) {
-        return accountRepository.save(account);
+
+        Account accountCreated = accountRepository.save(account);
+        Balance balance = new Balance();
+
+        balance.setAccount_number(Long.valueOf(account.getAccount_number()));
+        balance.setAmount_pesos(BigDecimal.valueOf(0));
+        balance.setAmount_dollars(BigDecimal.valueOf(0));
+        balance.setOverdraft_limit(
+                account.getAccount_tipe().equals("CC")? BigDecimal.valueOf(10000):BigDecimal.valueOf(0)
+        );
+        balanceRepository.save(balance);
+        return accountCreated;
     }
 
     @Override
